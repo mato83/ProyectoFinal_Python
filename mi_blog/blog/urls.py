@@ -1,14 +1,16 @@
 from django.urls import path, include
-from .views import PageListView, PageDetailView, InicioView, PageCreateView, PageDeleteView, PageUpdateView, ContactoView, AcercaDeView, ProfileUpdateView, ProfileView
+from .views import (
+    PageListView, PageDetailView, InicioView, PageCreateView,
+    PageDeleteView, PageUpdateView, ContactoView, AcercaDeView,
+    ProfileUpdateView, ProfileView, SignUpView
+)
 from django.contrib.auth import views as auth_views
-from .views import SignUpView
 from django.contrib import admin
 
-
 urlpatterns = [
-    path('', PageListView.as_view(), name='page-list'),
-    path('page/<int:pk>/', PageDetailView.as_view(), name='page-detail'),
     path('', InicioView.as_view(), name='inicio'),
+    path('paginas/', PageListView.as_view(), name='page-list'),
+    path('page/<int:pk>/', PageDetailView.as_view(), name='page-detail'),
     path('page/nuevo/', PageCreateView.as_view(), name='page-create'),
     path('page/<int:pk>/editar/', PageUpdateView.as_view(), name='page-update'),
     path('page/<int:pk>/borrar/', PageDeleteView.as_view(), name='page-delete'),
@@ -21,6 +23,4 @@ urlpatterns = [
     path('accounts/signup/', SignUpView.as_view(), name='signup'),
     path('accounts/', include('accounts.urls')),
     path('admin/', admin.site.urls),
-    
 ]
-
