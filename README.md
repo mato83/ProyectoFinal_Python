@@ -90,6 +90,36 @@ from django.contrib.auth.models import User
 User.objects.create_superuser('admin', 'admin@example.com', 'contraseña_segura')
 exit()
 
+Para chequear si el usuario existe
+from django.contrib.auth import get_user_model
+User = get_user_model()
+User.objects.filter(username='admin').exists()
+
+Si devuelve True y quieres cambiar la contraseña:
+
+En la shell (líneas separadas): 
+
+User = get_user_model()
+u = User.objects.get(username='admin')
+u.set_password('contraseña_segura')
+u.is_staff = True
+u.is_superuser = True
+u.save()
+
+Opción B — Eliminar y recrear el usuario:
+from django.contrib.auth import get_user_model
+User = get_user_model()
+User.objects.filter(username='admin').delete()
+User.objects.create_superuser('admin','admin@example.com','contraseña_segura')
+
+Opción C — Mantener el usuario existente y solo asignarle permisos de superusuario (sin cambiar contraseña):
+from django.contrib.auth import get_user_model
+User = get_user_model()
+u = User.objects.get(username='admin')
+u.is_staff = True
+u.is_superuser = True
+u.save()
+
 Tener en cuenta, que también, puedes crear un usuario desde el Shell ingresando lo siguiente:
 from django.contrib.auth.models import User
 User.objects.create_superuser('admin', 'admin@example.com', 'tu_contraseña_segura')
